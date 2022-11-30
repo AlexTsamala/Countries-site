@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: { items: []; darkMode: boolean } = {
+const initialState: { items: []; darkMode: boolean; color: string } = {
   items: [],
   darkMode: false,
+  color: "#ffffff",
 };
 
 const countriesListSlice = createSlice({

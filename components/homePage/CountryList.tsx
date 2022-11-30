@@ -1,29 +1,78 @@
 import styled from "styled-components";
-import Image from "next/image";
-import { useAppDispatch, useAppSelector } from "../../redux/redux";
-import RegionSelector from "./RegionSelector";
+import { useAppSelector } from "../../redux/redux";
+import SelectRegion from "./Selector";
+import { useState } from "react";
 
 const CountryList = () => {
+  const [searchWord, setSearchWord] = useState("");
   const darkModeStatus = useAppSelector(
     (state) => state.countriesList.darkMode
   );
   const countries = useAppSelector((state) => state.countriesList.items);
+  const filteredCountries = () => {
+    if (searchWord.length > 0) {
+      const newArray = countries.filter((item: any) => {
+        return item.name.common.includes(searchWord);
+      });
+      return newArray;
+    } else {
+      return countries;
+    }
+  };
+
+  const filterHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchWord(event.target.value);
+  };
+
   return (
     <Container>
-      <InputSection color={darkModeStatus ? "#2B3844" : "white"}>
+      <InputSection color={darkModeStatus ? "#2B3844" : "#ffffff"}>
         {darkModeStatus ? (
           <img alt="ShapeWhite" src={"/assets/ShapeWhite.png"} />
         ) : (
           <img alt="Shape" src={"/assets/Shape.png"} />
         )}
         <Input
-          color={darkModeStatus ? "#2B3844" : "white"}
-          placeHolderColor={darkModeStatus ? "white" : "#c4c4c4"}
+          onChange={filterHandler}
+          color={darkModeStatus ? "#2B3844" : "#ffffff"}
+          placeHolderColor={darkModeStatus ? "#ffffff" : "#c4c4c4"}
           type="text"
           placeholder="Search for a country…"
         ></Input>
       </InputSection>
-      <RegionSelector />
+      <SelectRegion />
+      <CountriesSection>
+        {filteredCountries().map((item: any, index) => {
+          return (
+            <CountryDiv
+              color={darkModeStatus ? "#2B3844" : "#ffffff"}
+              key={index}
+            >
+              <img
+                style={{ borderRadius: "5px" }}
+                alt={item.name.common}
+                src={item.flags.png}
+              />
+              <MainSectionOfInfo color={darkModeStatus ? "#2B3844" : "#ffffff"}>
+                <CountryName color={darkModeStatus ? "#ffffff" : "#111517"}>
+                  {item.name.common}
+                </CountryName>
+                <InfoSection>
+                  <DetailedInfo color={darkModeStatus ? "#ffffff" : "#111517"}>
+                    Population:<span>{item.population}</span>
+                  </DetailedInfo>
+                  <DetailedInfo color={darkModeStatus ? "#ffffff" : "#111517"}>
+                    Region:<span>{item.region}</span>
+                  </DetailedInfo>
+                  <DetailedInfo color={darkModeStatus ? "#ffffff" : "#111517"}>
+                    Capital:<span>{item.capital}</span>
+                  </DetailedInfo>
+                </InfoSection>
+              </MainSectionOfInfo>
+            </CountryDiv>
+          );
+        })}
+      </CountriesSection>
     </Container>
   );
 };
@@ -56,4 +105,52 @@ const Input = styled.input<{ placeHolderColor: string }>`
     text-align: left;
     color: ${(props) => props.placeHolderColor};
   }
+`;
+
+const CountriesSection = styled.div`
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+`;
+
+const CountryDiv = styled.div`
+  background-color: ${(props) => props.color};
+  box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.0294384);
+  border-radius: 5px;
+`;
+
+const MainSectionOfInfo = styled.div`
+  margin: 20px 24px 46px;
+`;
+
+const InfoSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+`;
+
+const DetailedInfo = styled.span`
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: ${(props) => props.color};
+  span {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 16px;
+    letter-spacing: 0px;
+    margin-left: 3px;
+  }
+`;
+const CountryName = styled.h1`
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 26px;
+  letter-spacing: 0px;
+  color: ${(props) => props.color};
 `;

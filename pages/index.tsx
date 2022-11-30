@@ -13,13 +13,16 @@ interface HomeProps {
 
 export default function Home(props: HomeProps) {
   const dispatch = useAppDispatch();
+  const darkModeStatus = useAppSelector(
+    (state) => state.countriesList.darkMode
+  );
   useEffect(() => {
     dispatch(countriesListActions.updateCountriesList(props.data));
   }, []);
 
   return (
     <Container>
-      <GlobalStyle />
+      <GlobalStyle color={darkModeStatus ? "#202C36" : "#F2F2F2"} />
       <Header />
       <CountryList />
     </Container>
@@ -31,7 +34,7 @@ export async function getServerSideProps() {
   return { props: { data: res.data } };
 }
 
-const GlobalStyle = createGlobalStyle`
+const GlobalStyle = createGlobalStyle<{ color: string }>`
   * {
     box-sizing: border-box;
     margin:0;
@@ -39,7 +42,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: "Nunito Sans";
   }
   body{
-    background-color: #F2F2F2;
+    background-color: ${(props) => props.color};
   }
 `;
 
