@@ -2,26 +2,40 @@ import styled from "styled-components";
 import { useAppSelector } from "../../redux/redux";
 import SelectRegion from "./Selector";
 import { useState } from "react";
+import Link from "next/link";
 
 const CountryList = () => {
   const [searchWord, setSearchWord] = useState("");
+  const [continent, setContinent] = useState<string>("");
   const darkModeStatus = useAppSelector(
     (state) => state.countriesList.darkMode
   );
   const countries = useAppSelector((state) => state.countriesList.items);
+
   const filteredCountries = () => {
+    let info =
+      continent.length > 0
+        ? countries.filter((item: any) => {
+            return item.region.includes(continent);
+          })
+        : countries;
+
     if (searchWord.length > 0) {
-      const newArray = countries.filter((item: any) => {
+      const newArray = info.filter((item: any) => {
         return item.name.common.includes(searchWord);
       });
       return newArray;
     } else {
-      return countries;
+      return info;
     }
   };
 
   const filterHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(event.target.value);
+  };
+
+  const countryHandler = (index: number) => {
+    console.log(index);
   };
 
   return (
@@ -36,11 +50,12 @@ const CountryList = () => {
           onChange={filterHandler}
           color={darkModeStatus ? "#2B3844" : "#ffffff"}
           placeHolderColor={darkModeStatus ? "#ffffff" : "#c4c4c4"}
+          textColor={darkModeStatus ? "#ffffff" : "#111517"}
           type="text"
           placeholder="Search for a country…"
         ></Input>
       </InputSection>
-      <SelectRegion />
+      <SelectRegion setContinent={setContinent} continent={continent} />
       <CountriesSection>
         {filteredCountries().map((item: any, index) => {
           return (
@@ -48,11 +63,14 @@ const CountryList = () => {
               color={darkModeStatus ? "#2B3844" : "#ffffff"}
               key={index}
             >
-              <img
-                style={{ borderRadius: "5px" }}
-                alt={item.name.common}
-                src={item.flags.png}
-              />
+              <LinkOfCountry href={"/" + item.name.common}>
+                <img
+                  style={{ borderRadius: "5px", cursor: "pointer" }}
+                  onClick={() => countryHandler(index)}
+                  alt={item.name.common}
+                  src={item.flags.png}
+                />
+              </LinkOfCountry>
               <MainSectionOfInfo color={darkModeStatus ? "#2B3844" : "#ffffff"}>
                 <CountryName color={darkModeStatus ? "#ffffff" : "#111517"}>
                   {item.name.common}
@@ -92,10 +110,15 @@ const InputSection = styled.div`
   background-color: ${(props) => props.color};
 `;
 
-const Input = styled.input<{ placeHolderColor: string }>`
+const Input = styled.input<{ placeHolderColor: string; textColor: string }>`
   margin-left: 26px;
   border: none;
   background-color: ${(props) => props.color};
+  color: ${(props) => props.textColor};
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0px;
   ::placeholder,
   ::-webkit-input-placeholder {
     font-size: 12px;
@@ -120,6 +143,8 @@ const CountryDiv = styled.div`
   box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.0294384);
   border-radius: 5px;
 `;
+
+const LinkOfCountry = styled(Link)``;
 
 const MainSectionOfInfo = styled.div`
   margin: 20px 24px 46px;

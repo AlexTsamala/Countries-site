@@ -1,7 +1,12 @@
 import React, { use, useState } from "react";
-import Select from "react-select";
+import Select, { ActionMeta } from "react-select";
 import { useAppDispatch, useAppSelector } from "../../redux/redux";
 import styled from "styled-components";
+
+interface OptionType {
+  label: string;
+  value: string;
+}
 
 const options = [
   { value: "Africa", label: "Africa" },
@@ -11,10 +16,16 @@ const options = [
   { value: "Oceania", label: "Oceania" },
 ];
 
-export default function SelectRegion() {
-  const [selectedOption, setSelectedOption] = useState<string | null | object>(
-    null
-  );
+export default function SelectRegion(props: {
+  setContinent: (str: string) => void;
+  continent: string;
+}) {
+  const filterHandler = (
+    option: OptionType | null,
+    actionMeta: ActionMeta<OptionType>
+  ) => {
+    props.setContinent(option?.value || "");
+  };
 
   const darkModeStatus = useAppSelector(
     (state) => state.countriesList.darkMode
@@ -91,7 +102,7 @@ export default function SelectRegion() {
   return (
     <Container>
       <Select
-        onChange={setSelectedOption}
+        onChange={filterHandler}
         options={options}
         styles={customStyles}
         placeholder={"Filter by Region"}
