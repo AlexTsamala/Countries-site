@@ -34,10 +34,6 @@ const CountryList = () => {
     setSearchWord(event.target.value);
   };
 
-  const countryHandler = (index: number) => {
-    console.log(index);
-  };
-
   return (
     <Container>
       <InputSection color={darkModeStatus ? "#2B3844" : "#ffffff"}>
@@ -66,7 +62,6 @@ const CountryList = () => {
               <LinkOfCountry href={"/" + item.name.common}>
                 <img
                   style={{ borderRadius: "5px", cursor: "pointer" }}
-                  onClick={() => countryHandler(index)}
                   alt={item.name.common}
                   src={item.flags.png}
                 />
@@ -136,12 +131,24 @@ const CountriesSection = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 40px;
+  @media (min-width: 1440px) {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const CountryDiv = styled.div`
   background-color: ${(props) => props.color};
   box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.0294384);
   border-radius: 5px;
+
+  @media (min-width: 1440px) {
+    height: 336px;
+    width: 264px;
+  }
 `;
 
 const LinkOfCountry = styled(Link)``;
