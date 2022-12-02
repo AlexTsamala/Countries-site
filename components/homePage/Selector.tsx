@@ -56,6 +56,7 @@ export default function SelectRegion(props: {
       border: "none",
       width: "200px",
       borderRadius: "5px",
+      height: "48px",
     }),
     indicatorSeparator: () => ({ display: "none" }),
     dropdownIndicator: (styles: any) => ({
@@ -116,4 +117,8 @@ const Container = styled.div`
   margin-left: 16px;
   box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.0532439);
   border-radius: 5px;
+  @media (min-width: 1440px) {
+    margin: 48px 80px 48px;
+    box-shadow: none;
+  }
 `;

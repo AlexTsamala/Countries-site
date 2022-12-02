@@ -36,22 +36,24 @@ const CountryList = () => {
 
   return (
     <Container>
-      <InputSection color={darkModeStatus ? "#2B3844" : "#ffffff"}>
-        {darkModeStatus ? (
-          <img alt="ShapeWhite" src={"/assets/ShapeWhite.png"} />
-        ) : (
-          <img alt="Shape" src={"/assets/Shape.png"} />
-        )}
-        <Input
-          onChange={filterHandler}
-          color={darkModeStatus ? "#2B3844" : "#ffffff"}
-          placeHolderColor={darkModeStatus ? "#ffffff" : "#c4c4c4"}
-          textColor={darkModeStatus ? "#ffffff" : "#111517"}
-          type="text"
-          placeholder="Search for a country…"
-        ></Input>
-      </InputSection>
-      <SelectRegion setContinent={setContinent} continent={continent} />
+      <InputAndSelectorDiv>
+        <InputSection color={darkModeStatus ? "#2B3844" : "#ffffff"}>
+          {darkModeStatus ? (
+            <img alt="ShapeWhite" src={"/assets/ShapeWhite.png"} />
+          ) : (
+            <img alt="Shape" src={"/assets/Shape.png"} />
+          )}
+          <Input
+            onChange={filterHandler}
+            color={darkModeStatus ? "#2B3844" : "#ffffff"}
+            placeHolderColor={darkModeStatus ? "#ffffff" : "#c4c4c4"}
+            textColor={darkModeStatus ? "#ffffff" : "#111517"}
+            type="text"
+            placeholder="Search for a country…"
+          ></Input>
+        </InputSection>
+        <SelectRegion setContinent={setContinent} continent={continent} />
+      </InputAndSelectorDiv>
       <CountriesSection>
         {filteredCountries().map((item: any, index) => {
           return (
@@ -103,6 +105,10 @@ const InputSection = styled.div`
   display: flex;
   align-items: center;
   background-color: ${(props) => props.color};
+  @media (min-width: 1440px) {
+    margin: 48px 0 48px 80px;
+    width: 480px;
+  }
 `;
 
 const Input = styled.input<{ placeHolderColor: string; textColor: string }>`
@@ -151,7 +157,14 @@ const CountryDiv = styled.div`
   }
 `;
 
-const LinkOfCountry = styled(Link)``;
+const LinkOfCountry = styled(Link)`
+  img {
+    @media (min-width: 1440px) {
+      height: 160px;
+      width: 267px;
+    }
+  }
+`;
 
 const MainSectionOfInfo = styled.div`
   margin: 20px 24px 46px;
@@ -185,4 +198,12 @@ const CountryName = styled.h1`
   line-height: 26px;
   letter-spacing: 0px;
   color: ${(props) => props.color};
+`;
+
+const InputAndSelectorDiv = styled.div`
+  @media (min-width: 1440px) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `;

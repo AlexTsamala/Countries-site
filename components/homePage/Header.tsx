@@ -36,7 +36,7 @@ const Header = () => {
         <span
           style={darkModeStatus ? { color: "white" } : { color: "#111517" }}
         >
-          Dark Mode
+          {darkModeStatus ? "White Mode" : "Dark Mode"}
         </span>
       </div>
     </Container>
@@ -63,6 +63,13 @@ const Container = styled.div`
     font-weight: 800;
     line-height: 20px;
     letter-spacing: 0px;
+    @media (min-width: 1440px) {
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 33px;
+      letter-spacing: 0px;
+      margin-left: 81px;
+    }
   }
   span {
     font-size: 12px;
@@ -70,6 +77,13 @@ const Container = styled.div`
     line-height: 16px;
     letter-spacing: 0px;
     text-align: left;
+    @media (min-width: 1440px) {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 22px;
+      letter-spacing: 0px;
+      margin-right: 81px;
+    }
   }
 `;
 

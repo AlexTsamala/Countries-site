@@ -53,13 +53,13 @@ const Country = (props: HomeProps) => {
           </BackSpan>
         </BackButton>
         <CountrySection>
-          <img
+          <ImgFlag
             style={{ borderRadius: "5px", cursor: "pointer" }}
             alt={countryInfo[0].name.common}
             src={countryInfo[0].flags.png}
           />
           <AboutCountry>
-            <div>
+            <SectionOfFirstAndSecondDiv>
               <FirstInfoDiv>
                 <CountryName color={darkModeStatus ? "#ffffff" : "#111517"}>
                   {countryInfo[0].name.common}
@@ -94,33 +94,31 @@ const Country = (props: HomeProps) => {
                   <span>{languages}</span>
                 </DetailedInfo>
               </SecondInfoDiv>
-              <ThirdInfoDIv>
-                <BorderCountryDiv
-                  color={darkModeStatus ? "#ffffff" : "#111517"}
-                >
-                  Border Countries:
-                </BorderCountryDiv>
-                <BorderCountiesDiv>
-                  {countryInfo[0].borders
-                    ? countryInfo[0].borders.map(
-                        (country: any, index: number) => {
-                          return (
-                            <BorderCounties
-                              key={index}
-                              backgroundColor={
-                                darkModeStatus ? "#2B3844" : "#ffffff"
-                              }
-                              color={darkModeStatus ? "#ffffff" : "#111517"}
-                            >
-                              {country}
-                            </BorderCounties>
-                          );
-                        }
-                      )
-                    : ""}
-                </BorderCountiesDiv>
-              </ThirdInfoDIv>
-            </div>
+            </SectionOfFirstAndSecondDiv>
+            <ThirdInfoDIv>
+              <BorderCountryDiv color={darkModeStatus ? "#ffffff" : "#111517"}>
+                Border Countries:
+              </BorderCountryDiv>
+              <BorderCountiesDiv>
+                {countryInfo[0].borders
+                  ? countryInfo[0].borders.map(
+                      (country: any, index: number) => {
+                        return (
+                          <BorderCounties
+                            key={index}
+                            backgroundColor={
+                              darkModeStatus ? "#2B3844" : "#ffffff"
+                            }
+                            color={darkModeStatus ? "#ffffff" : "#111517"}
+                          >
+                            {country}
+                          </BorderCounties>
+                        );
+                      }
+                    )
+                  : ""}
+              </BorderCountiesDiv>
+            </ThirdInfoDIv>
           </AboutCountry>
         </CountrySection>
       </CountryContainer>
@@ -156,6 +154,9 @@ const BackButton = styled(Link)<{ color: string }>`
   justify-content: center;
   gap: 8px;
   box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.293139);
+  @media (min-width: 1440px) {
+    margin-left: 80px;
+  }
 `;
 
 const BackSpan = styled.span<{ colorSpan: string }>`
@@ -167,7 +168,13 @@ const BackSpan = styled.span<{ colorSpan: string }>`
   color: ${(props) => props.colorSpan};
 `;
 
-const CountrySection = styled.div``;
+const CountrySection = styled.div`
+  @media (min-width: 1440px) {
+    display: flex;
+    align-items: center;
+    gap: 120px;
+  }
+`;
 
 const CountryName = styled.h1`
   font-size: 22px;
@@ -176,6 +183,12 @@ const CountryName = styled.h1`
   letter-spacing: 0px;
   color: ${(props) => props.color};
   margin-bottom: 16px;
+  @media (min-width: 1440px) {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 44px;
+    letter-spacing: 0px;
+  }
 `;
 
 const AboutCountry = styled.div`
@@ -188,12 +201,26 @@ const DetailedInfo = styled.span`
   line-height: 32px;
   letter-spacing: 0px;
   color: ${(props) => props.color};
+  @media (min-width: 1440px) {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 32px;
+    letter-spacing: 0px;
+    text-align: left;
+  }
   span {
     font-size: 14px;
     font-weight: 300;
     line-height: 32px;
     letter-spacing: 0px;
     margin-left: 5px;
+    @media (min-width: 1440px) {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 32px;
+      letter-spacing: 0px;
+      text-align: left;
+    }
   }
 `;
 
@@ -218,7 +245,12 @@ const BorderCountryDiv = styled.div`
   color: ${(props) => props.color};
 `;
 
-const ThirdInfoDIv = styled.div``;
+const ThirdInfoDIv = styled.div`
+  @media (min-width: 1440px) {
+    display: flex;
+    flex-direction: row;
+  }
+`;
 
 const BorderCountiesDiv = styled.div`
   display: flex;
@@ -226,6 +258,12 @@ const BorderCountiesDiv = styled.div`
   width: 310px;
   gap: 10px;
   margin-top: 16px;
+  @media (min-width: 1440px) {
+    margin-top: 0;
+    flex-wrap: nowrap;
+    width: 600px;
+    margin-left: 16px;
+  }
 `;
 
 const BorderCounties = styled.div<{ backgroundColor: string }>`
@@ -243,4 +281,19 @@ const BorderCounties = styled.div<{ backgroundColor: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const ImgFlag = styled.img`
+  @media (min-width: 1440px) {
+    height: 483px;
+    width: 559px;
+  }
+`;
+
+const SectionOfFirstAndSecondDiv = styled.div`
+  @media (min-width: 1440px) {
+    display: flex;
+    align-items: center;
+    gap: 141px;
+  }
 `;
